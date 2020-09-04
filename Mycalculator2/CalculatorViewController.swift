@@ -237,76 +237,39 @@ class CalculatorViewController: UIViewController {
         ope = ""
     }
     @IBAction func divButton(_ sender: Any) {
-        if mode == false {
+        if resultLabel.text != "0"{
             calculation()
         }
         ope = "÷"
-        if operatorLabel.text == "" {
-            process += "\(resultLabel.text!)"
-        }else {
-            process += "÷\(resultLabel.text!)"
-        }
-        operatorLabel.text = process
+
         mode = false
-        if firstNumber == 0 {
-            firstNumber += Int(resultLabel.text!)!
-        }else {
-            firstNumber /= Int(resultLabel.text!)!
-        }
+
         resultLabel.text = "\(firstNumber)"
     }
     @IBAction func mulButton(_ sender: Any) {
-        if mode == false {
+        if resultLabel.text != "0"{
             calculation()
         }
         ope = "×"
-        if operatorLabel.text == "" {
-            process += "\(resultLabel.text!)"
-        }else {
-            process += "×\(resultLabel.text!)"
-        }
-        operatorLabel.text = process
+
         mode = false
-        if firstNumber == 0 {
-            firstNumber += Int(resultLabel.text!)!
-        }else {
-            firstNumber *= Int(resultLabel.text!)!
-        }
+
         resultLabel.text = "\(firstNumber)"
     }
     @IBAction func subButton(_ sender: Any) {
-        if mode == false {
+        if resultLabel.text != "0"{
             calculation()
         }
         ope = "-"
-        if operatorLabel.text == "" {
-            process += "\(resultLabel.text!)"
-        }else {
-            process += "-\(resultLabel.text!)"
-        }
-        operatorLabel.text = process
         mode = false
-        if firstNumber == 0 {
-            firstNumber += Int(resultLabel.text!)!
-        }else {
-            firstNumber -= Int(resultLabel.text!)!
-        }
         resultLabel.text = "\(firstNumber)"
     }
     @IBAction func addButton(_ sender: Any) {
-        if mode == false {
-            print("実行")
+        if resultLabel.text != "0"{
             calculation()
         }
         ope = "+"
-        if operatorLabel.text == "" {
-            process += "\(resultLabel.text!)"
-        }else {
-            process += "+\(resultLabel.text!)"
-        }
-        operatorLabel.text = process
         mode = false
-        firstNumber += Int(resultLabel.text!)!
         resultLabel.text = "\(firstNumber)"
     }
     @IBAction func equalButton(_ sender: Any) {
@@ -323,21 +286,46 @@ class CalculatorViewController: UIViewController {
     }
     
     func calculation() {
+        print("debug: " + ope)
+        if ope == ""{
+            process = resultLabel.text!
+            operatorLabel.text = process
+            firstNumber += Int(resultLabel.text!)!
+        }
         if ope == "+" {
-            process += "+\(resultLabel.text!)"
+            if resultLabel.text == "0"{
+                process += resultLabel.text!
+            }else{
+                process += "+\(resultLabel.text!)"
+            }
             operatorLabel.text = process
             firstNumber += Int(resultLabel.text!)!
         }else if ope == "-" {
+            if resultLabel.text == "0"{
+                process += resultLabel.text!
+            }else{
+                process += "-\(resultLabel.text!)"
+            }
             operatorLabel.text = process
             mode = false
             firstNumber -= Int(resultLabel.text!)!
             resultLabel.text = "\(firstNumber)"
         }else if ope == "×" {
+            if resultLabel.text == "0"{
+                process += resultLabel.text!
+            }else{
+                process += "×\(resultLabel.text!)"
+            }
             operatorLabel.text = process
             mode = false
             firstNumber *= Int(resultLabel.text!)!
             resultLabel.text = "\(firstNumber)"
         }else if ope == "÷" {
+            if resultLabel.text == "0"{
+                process += resultLabel.text!
+            }else{
+                process += "÷\(resultLabel.text!)"
+            }
             operatorLabel.text = process
             mode = false
             firstNumber /= Int(resultLabel.text!)!
@@ -345,6 +333,7 @@ class CalculatorViewController: UIViewController {
         }
         resultLabel.text = "\(firstNumber)"
     }
+    
     @IBAction func changeButton(_ sender: Any) {
     }
     
