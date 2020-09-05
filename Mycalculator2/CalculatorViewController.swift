@@ -286,7 +286,6 @@ class CalculatorViewController: UIViewController {
     }
     
     func calculation() {
-        print("debug: " + ope)
         if ope == ""{
             process = resultLabel.text!
             operatorLabel.text = process
@@ -334,7 +333,13 @@ class CalculatorViewController: UIViewController {
         resultLabel.text = "\(firstNumber)"
     }
     
+  
+    
     @IBAction func changeButton(_ sender: Any) {
+        let changeNum = Int(resultLabel.text!)!
+        let changeNumberVC = self.storyboard?.instantiateViewController(withIdentifier: "ChangeNumberViewController") as! ChangeNumberViewController
+        changeNumberVC.number = changeNum
+        self.present(changeNumberVC,animated: true, completion: nil)
     }
     
 
