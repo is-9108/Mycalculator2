@@ -82,15 +82,15 @@ class ChangeNumberViewController: UIViewController {
             decimal = decimal / bin
             base = base / 10
             
+            print("result\(decimal)")
             
-            
-            
+            print("--------------------------")
             
         }
         
         
         binaryDecimalNumber = decimal
-        print("binary: \(binary)")
+        print("binary: \(decimal)")
     }
     func changeOctalNumber(number: Int){
         var decimal = number
