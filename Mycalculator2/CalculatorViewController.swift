@@ -343,9 +343,9 @@ class CalculatorViewController: UIViewController {
         
         //小数点以下の文字列を取得
         let numString = resultLabel.text!
-        var demicalString = "0"
+        var demicalString = "0."
         let array = Array(numString)
-        let num = Int(array.firstIndex(of: ".")!)
+        let num = Int(array.firstIndex(of: ".")!) + 1
         for i in num..<array.count {
             demicalString += String(array[i])
         }

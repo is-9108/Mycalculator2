@@ -14,10 +14,15 @@ class ChangeNumberViewController: UIViewController {
     var decimalNumber = 0.0
     
     var number = 0.0
+    
     var binaryNumber = 0
+    var binaryDecimalNumber = 0.0
+    
     var octalNumber = 0
+    var octtalDecimalNumber = ""
+    
     var hexadecimalNumber = ""
-
+    
     //label
     @IBOutlet weak var binaryNumberLabel: UILabel!
     @IBOutlet weak var octalNumberLabel: UILabel!
@@ -35,6 +40,7 @@ class ChangeNumberViewController: UIViewController {
         octalNumberLabel.text = "\(octalNumber)"
         decimalNumberLabel.text = "\(number)"
         hexadecimalLabel.text = hexadecimalNumber
+        changeBinaryDecimalNumber(numberString: decimalNumber)
     }
     
     func changeBinaryNumber(number: Int){
@@ -49,6 +55,42 @@ class ChangeNumberViewController: UIViewController {
         }
 
         binaryNumber = binary
+    }
+    func changeBinaryDecimalNumber(numberString: Double){
+        print("aaa\(numberString)")
+        var decimal = numberString
+        var binary = 0.0
+        var base = 1.0
+        var count = String(number).count
+        
+        
+//        while(decimal > 0){
+//            binary = binary + (decimal % 2.0) * base
+//            decimal = decimal / 2
+//            base = base / 10
+//        }
+        
+        for i in 1..<count{
+                
+            var bin = 1.0 / pow(2.0, Double(i))
+
+            print("binary = : \(decimal) % \(bin)")
+            print("decimal = : \(decimal) / \(bin)")
+            print("base = \(base) / 10")
+            
+            binary = decimal.truncatingRemainder(dividingBy: bin) * base
+            decimal = decimal / bin
+            base = base / 10
+            
+            
+            
+            
+            
+        }
+        
+        
+        binaryDecimalNumber = decimal
+        print("binary: \(binary)")
     }
     func changeOctalNumber(number: Int){
         var decimal = number
