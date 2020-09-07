@@ -10,10 +10,12 @@ import UIKit
 
 class ChangeNumberViewController: UIViewController {
     
-    var number = 0
+    var integerNumber = 0
+    var decimalNumber = 0.0
+    
+    var number = 0.0
     var binaryNumber = 0
     var octalNumber = 0
-    var decimalNumber = 0
     var hexadecimalNumber = ""
 
     //label
@@ -26,9 +28,9 @@ class ChangeNumberViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeBinaryNumber(number: number)
-        changeOctalNumber(number: number)
-        changehexadecimalNumber(number: number)
+        changeBinaryNumber(number: integerNumber)
+        changeOctalNumber(number: integerNumber)
+        changehexadecimalNumber(number: integerNumber)
         binaryNumberLabel.text = "\(binaryNumber)"
         octalNumberLabel.text = "\(octalNumber)"
         decimalNumberLabel.text = "\(number)"

@@ -36,9 +36,9 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var zeroButton: UIButton!
         
-    var firstNumber = 0
-    var secondNumber = 0
-    var resltNumber = 0
+    var firstNumber = 0.0
+//    var secondNumber = 0
+    var resltNumber = 0.0
     var process = ""
     
     var mode = true
@@ -289,7 +289,7 @@ class CalculatorViewController: UIViewController {
         if ope == ""{
             process = resultLabel.text!
             operatorLabel.text = process
-            firstNumber += Int(resultLabel.text!)!
+            firstNumber += Double(resultLabel.text!)!
         }
         if ope == "+" {
             if resultLabel.text == "0"{
@@ -298,7 +298,7 @@ class CalculatorViewController: UIViewController {
                 process += "+\(resultLabel.text!)"
             }
             operatorLabel.text = process
-            firstNumber += Int(resultLabel.text!)!
+            firstNumber += Double(resultLabel.text!)!
         }else if ope == "-" {
             if resultLabel.text == "0"{
                 process += resultLabel.text!
@@ -307,7 +307,7 @@ class CalculatorViewController: UIViewController {
             }
             operatorLabel.text = process
             mode = false
-            firstNumber -= Int(resultLabel.text!)!
+            firstNumber -= Double(resultLabel.text!)!
             resultLabel.text = "\(firstNumber)"
         }else if ope == "×" {
             if resultLabel.text == "0"{
@@ -317,7 +317,7 @@ class CalculatorViewController: UIViewController {
             }
             operatorLabel.text = process
             mode = false
-            firstNumber *= Int(resultLabel.text!)!
+            firstNumber *= Double(resultLabel.text!)!
             resultLabel.text = "\(firstNumber)"
         }else if ope == "÷" {
             if resultLabel.text == "0"{
@@ -327,7 +327,7 @@ class CalculatorViewController: UIViewController {
             }
             operatorLabel.text = process
             mode = false
-            firstNumber /= Int(resultLabel.text!)!
+            firstNumber /= Double(resultLabel.text!)!
             resultLabel.text = "\(firstNumber)"
         }
         resultLabel.text = "\(firstNumber)"
@@ -336,12 +336,25 @@ class CalculatorViewController: UIViewController {
   
     
     @IBAction func changeButton(_ sender: Any) {
-        let changeNum = Int(resultLabel.text!)!
+        //整数部を取得
+        let result = Double(resultLabel.text!)!
+        let integerNumber = Int(result)
+        print(integerNumber)
+        
+        //小数点以下の文字列を取得
+        let numString = resultLabel.text!
+        var demicalString = "0"
+        let array = Array(numString)
+        let num = Int(array.firstIndex(of: ".")!)
+        for i in num..<array.count {
+            demicalString += String(array[i])
+        }
+        print(demicalString)
+        
         let changeNumberVC = self.storyboard?.instantiateViewController(withIdentifier: "ChangeNumberViewController") as! ChangeNumberViewController
-        changeNumberVC.number = changeNum
+        changeNumberVC.number = result
+        changeNumberVC.integerNumber = integerNumber
+        changeNumberVC.decimalNumber = Double(demicalString)!
         self.present(changeNumberVC,animated: true, completion: nil)
     }
-    
-
-
 }
