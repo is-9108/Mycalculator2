@@ -38,9 +38,9 @@ class ChangeNumberViewController: UIViewController {
         changehexadecimalNumber(number: integerNumber)
         binaryNumberLabel.text = "\(binaryNumber)"
         octalNumberLabel.text = "\(octalNumber)"
-        decimalNumberLabel.text = "\(number)"
+        decimalNumberLabel.text = "\(integerNumber)"
         hexadecimalLabel.text = hexadecimalNumber
-        changeBinaryDecimalNumber(numberString: decimalNumber)
+//        changeBinaryDecimalNumber(numberString: decimalNumber)
     }
     
     func changeBinaryNumber(number: Int){
@@ -56,42 +56,36 @@ class ChangeNumberViewController: UIViewController {
 
         binaryNumber = binary
     }
-    func changeBinaryDecimalNumber(numberString: Double){
-        print("aaa\(numberString)")
-        var decimal = numberString
-        var binary = 0.0
-        var base = 1.0
-        var count = String(number).count
-        
-        
-//        while(decimal > 0){
-//            binary = binary + (decimal % 2.0) * base
-//            decimal = decimal / 2
+    
+//    func changeBinaryDecimalNumber(numberString: Double){
+//        print("aaa\(numberString)")
+//        var decimal = numberString
+//        var binary = 0.0
+//        var base = 1.0
+//        var count = String(number).count
+//
+//        for i in 1..<count{
+//
+//            var bin = 1.0 / pow(2.0, Double(i))
+//
+//            print("binary = : \(decimal) % \(bin)")
+//            print("decimal = : \(decimal) / \(bin)")
+//            print("base = \(base) / 10")
+//
+//            binary = decimal.truncatingRemainder(dividingBy: bin) * base
+//            decimal = decimal / bin
 //            base = base / 10
+//
+//            print("result\(decimal)")
+//
+//            print("--------------------------")
+//
 //        }
-        
-        for i in 1..<count{
-                
-            var bin = 1.0 / pow(2.0, Double(i))
-
-            print("binary = : \(decimal) % \(bin)")
-            print("decimal = : \(decimal) / \(bin)")
-            print("base = \(base) / 10")
-            
-            binary = decimal.truncatingRemainder(dividingBy: bin) * base
-            decimal = decimal / bin
-            base = base / 10
-            
-            print("result\(decimal)")
-            
-            print("--------------------------")
-            
-        }
-        
-        
-        binaryDecimalNumber = decimal
-        print("binary: \(decimal)")
-    }
+//
+//        binaryDecimalNumber = decimal
+//        print("binary: \(decimal)")
+//    }
+    
     func changeOctalNumber(number: Int){
         var decimal = number
         var octal = 0

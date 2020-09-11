@@ -8,9 +8,134 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return list.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return list[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        baceNumberSelectTF.text = list[row]
+        
+    }
+    
+    func creatPickerView(){
+        pickerView.delegate = self
+        baceNumberSelectTF.inputView = pickerView
+        //toolbar
+        let toolbar = UIToolbar()
+        toolbar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
+        let doneButtonItem = UIBarButtonItem(barButtonSystemItem: .done
+            , target: self, action: #selector(donePicker))
+        toolbar.setItems([doneButtonItem], animated: true)
+        baceNumberSelectTF.inputAccessoryView = toolbar
+    }
+    
+    @objc func donePicker(){
+        baceNumberSelectTF.endEditing(true)
+        if baceNumberSelectTF.text == ""{
+            fifteenButton.isEnabled = false
+            fourteenButton.isEnabled = false
+            thirteenButton.isEnabled = false
+            twelveButton.isEnabled = false
+            elevenButton.isEnabled = false
+            tenButton.isEnabled = false
+            nineButton.isEnabled = false
+            eightButton.isEnabled = false
+            sevenButton.isEnabled = false
+            sixButton.isEnabled = false
+            fiveButton.isEnabled = false
+            fourButton.isEnabled = false
+            threeButton.isEnabled = false
+            twoButton.isEnabled = false
+            oneButton.isEnabled = false
+            zeroButton.isEnabled = false
+        }else if baceNumberSelectTF.text == "2進数"{
+            fifteenButton.isEnabled = false
+            fourteenButton.isEnabled = false
+            thirteenButton.isEnabled = false
+            twelveButton.isEnabled = false
+            elevenButton.isEnabled = false
+            tenButton.isEnabled = false
+            nineButton.isEnabled = false
+            eightButton.isEnabled = false
+            sevenButton.isEnabled = false
+            sixButton.isEnabled = false
+            fiveButton.isEnabled = false
+            fourButton.isEnabled = false
+            threeButton.isEnabled = false
+            twoButton.isEnabled = false
+            oneButton.isEnabled = true
+            zeroButton.isEnabled = true
+        }else if baceNumberSelectTF.text == "8進数"{
+            fifteenButton.isEnabled = false
+            fourteenButton.isEnabled = false
+            thirteenButton.isEnabled = false
+            twelveButton.isEnabled = false
+            elevenButton.isEnabled = false
+            tenButton.isEnabled = false
+            nineButton.isEnabled = false
+            eightButton.isEnabled = false
+            sevenButton.isEnabled = true
+            sixButton.isEnabled = true
+            fiveButton.isEnabled = true
+            fourButton.isEnabled = true
+            threeButton.isEnabled = true
+            twoButton.isEnabled = true
+            oneButton.isEnabled = true
+            zeroButton.isEnabled = true
+        }else if baceNumberSelectTF.text == "10進数"{
+            fifteenButton.isEnabled = false
+            fourteenButton.isEnabled = false
+            thirteenButton.isEnabled = false
+            twelveButton.isEnabled = false
+            elevenButton.isEnabled = false
+            tenButton.isEnabled = false
+            nineButton.isEnabled = true
+            eightButton.isEnabled = true
+            sevenButton.isEnabled = true
+            sixButton.isEnabled = true
+            fiveButton.isEnabled = true
+            fourButton.isEnabled = true
+            threeButton.isEnabled = true
+            twoButton.isEnabled = true
+            oneButton.isEnabled = true
+            zeroButton.isEnabled = true
+        }else if baceNumberSelectTF.text ==  "16進数"{
+            fifteenButton.isEnabled = true
+            fourteenButton.isEnabled = true
+            thirteenButton.isEnabled = true
+            twelveButton.isEnabled = true
+            elevenButton.isEnabled = true
+            tenButton.isEnabled = true
+            nineButton.isEnabled = true
+            eightButton.isEnabled = true
+            sevenButton.isEnabled = true
+            sixButton.isEnabled = true
+            fiveButton.isEnabled = true
+            fourButton.isEnabled = true
+            threeButton.isEnabled = true
+            twoButton.isEnabled = true
+            oneButton.isEnabled = true
+            zeroButton.isEnabled = true
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        baceNumberSelectTF.endEditing(true)
+    }
+    //textField設定
     @IBOutlet weak var baceNumberSelectTF: UITextField!
+    var pickerView: UIPickerView = UIPickerView()
+    let list = ["", "2進数", "8進数", "10進数", "16進数"]
+    
     
     //result
     @IBOutlet weak var resultLabel: UILabel!
@@ -37,7 +162,6 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var zeroButton: UIButton!
         
     var firstNumber = 0.0
-//    var secondNumber = 0
     var resltNumber = 0.0
     var process = ""
     
@@ -46,8 +170,28 @@ class CalculatorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        creatPickerView()
         resultLabel.text = "0"
+        
+        fifteenButton.isEnabled = false
+        fourteenButton.isEnabled = false
+        thirteenButton.isEnabled = false
+        twelveButton.isEnabled = false
+        elevenButton.isEnabled = false
+        tenButton.isEnabled = false
+        nineButton.isEnabled = false
+        eightButton.isEnabled = false
+        sevenButton.isEnabled = false
+        sixButton.isEnabled = false
+        fiveButton.isEnabled = false
+        fourButton.isEnabled = false
+        threeButton.isEnabled = false
+        twoButton.isEnabled = false
+        oneButton.isEnabled = false
+        zeroButton.isEnabled = false
     }
+    
+    
     
     //number
     @IBAction func fifteen(_ sender: Any) {
@@ -343,18 +487,35 @@ class CalculatorViewController: UIViewController {
         
         //小数点以下の文字列を取得
         let numString = resultLabel.text!
-        var demicalString = "0."
-        let array = Array(numString)
-        let num = Int(array.firstIndex(of: ".")!) + 1
-        for i in num..<array.count {
-            demicalString += String(array[i])
+//        var demicalString = "0."
+        print(numString)
+        if numString.contains("."){
+            let alert: UIAlertController = UIAlertController(title: "申し訳ありません", message: "小数点以下の数字の変換には対応していません", preferredStyle: UIAlertController.Style.alert)
+            let confimAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {
+                (action: UIAlertAction) -> Void in
+                print("ok")
+                return
+            })
+            alert.addAction(confimAction)
+            present(alert,animated: true, completion: nil)
         }
-        print(demicalString)
+//        else{
+//            let array = Array(numString)
+//            let num = Int(array.firstIndex(of: ".")!) + 1
+//            for i in num..<array.count {
+//                demicalString += String(array[i])
+//            }
+//            print(demicalString)
+//        }
+        
         
         let changeNumberVC = self.storyboard?.instantiateViewController(withIdentifier: "ChangeNumberViewController") as! ChangeNumberViewController
         changeNumberVC.number = result
         changeNumberVC.integerNumber = integerNumber
-        changeNumberVC.decimalNumber = Double(demicalString)!
+//        changeNumberVC.decimalNumber = Double(demicalString)!
         self.present(changeNumberVC,animated: true, completion: nil)
     }
+    
+    
 }
+
