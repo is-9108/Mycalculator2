@@ -23,6 +23,8 @@ class ChangeNumberViewController: UIViewController {
     
     var hexadecimalNumber = ""
     
+    var mode = ""
+    
     //label
     @IBOutlet weak var binaryNumberLabel: UILabel!
     @IBOutlet weak var octalNumberLabel: UILabel!
@@ -33,15 +35,19 @@ class ChangeNumberViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeBinaryNumber(number: integerNumber)
-        changeOctalNumber(number: integerNumber)
-        changehexadecimalNumber(number: integerNumber)
-        binaryNumberLabel.text = "\(binaryNumber)"
-        octalNumberLabel.text = "\(octalNumber)"
-        decimalNumberLabel.text = "\(integerNumber)"
-        hexadecimalLabel.text = hexadecimalNumber
+        if mode == "10進数"{
+            changeBinaryNumber(number: integerNumber)
+            changeOctalNumber(number: integerNumber)
+            changehexadecimalNumber(number: integerNumber)
+            binaryNumberLabel.text = "\(binaryNumber)"
+            octalNumberLabel.text = "\(octalNumber)"
+            decimalNumberLabel.text = "\(integerNumber)"
+            hexadecimalLabel.text = hexadecimalNumber
+        }
 //        changeBinaryDecimalNumber(numberString: decimalNumber)
     }
+    
+    
     
     func changeBinaryNumber(number: Int){
         var decimal = number

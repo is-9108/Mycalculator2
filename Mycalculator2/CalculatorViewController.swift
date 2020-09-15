@@ -161,8 +161,10 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var zeroButton: UIButton!
         
-    var firstNumber = 0.0
-    var resltNumber = 0.0
+    var firstDouble = 0.0
+    var firstInteger = 0
+    var resltDouble = 0.0
+    var resultInteger = 0
     var process = ""
     
     var mode = true
@@ -374,7 +376,8 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
     //symbol
     @IBAction func ACButton(_ sender: Any) {
         resultLabel.text! = "0"
-        firstNumber = 0
+        firstInteger = 0
+        firstDouble = 0.0
         mode = true
         operatorLabel.text = ""
         process = ""
@@ -387,8 +390,11 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
         ope = "÷"
 
         mode = false
-
-        resultLabel.text = "\(firstNumber)"
+//        if baceNumberSelectTF.text == "10進数"{
+//            resultLabel.text = "\(firstDouble)"
+//        }else{
+//            resultLabel.text = "\(firstInteger)"
+//        }
     }
     @IBAction func mulButton(_ sender: Any) {
         if resultLabel.text != "0"{
@@ -398,7 +404,11 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
 
         mode = false
 
-        resultLabel.text = "\(firstNumber)"
+//        if baceNumberSelectTF.text == "10進数"{
+//            resultLabel.text = "\(firstDouble)"
+//        }else{
+//            resultLabel.text = "\(firstInteger)"
+//        }
     }
     @IBAction func subButton(_ sender: Any) {
         if resultLabel.text != "0"{
@@ -406,7 +416,11 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
         }
         ope = "-"
         mode = false
-        resultLabel.text = "\(firstNumber)"
+//        if baceNumberSelectTF.text == "10進数"{
+//            resultLabel.text = "\(firstDouble)"
+//        }else{
+//            resultLabel.text = "\(firstInteger)"
+//        }
     }
     @IBAction func addButton(_ sender: Any) {
         if resultLabel.text != "0"{
@@ -414,7 +428,11 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
         }
         ope = "+"
         mode = false
-        resultLabel.text = "\(firstNumber)"
+//        if baceNumberSelectTF.text == "10進数"{
+//            resultLabel.text = "\(firstDouble)"
+//        }else{
+//            resultLabel.text = "\(firstInteger)"
+//        }
     }
     @IBAction func equalButton(_ sender: Any) {
         //数字ボタンを押せなくする
@@ -426,14 +444,35 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
         
         mode = false
         calculation()
-        firstNumber = 0
+        firstInteger = 0
+        firstDouble = 0.0
     }
     
     func calculation() {
+        var changeNum = ""
+        var result = ""
+        var resultNumber = ""
+        if baceNumberSelectTF.text == "2進数"{
+            result = tenToTwo(number: resultLabel.text!)
+            changeNum = twoToTen(number: resultLabel.text!)
+            print("result: \(result)")
+            print("changeNum\(changeNum)")
+        }else if baceNumberSelectTF.text == "8進数"{
+            result = tenToEight(number: resultLabel.text!)
+        }else if baceNumberSelectTF.text == "10進数"{
+            result = resultLabel.text!
+        }else if baceNumberSelectTF.text == "16進数"{
+            result = tenToSixteen(number: resultLabel.text!)
+        }
         if ope == ""{
             process = resultLabel.text!
             operatorLabel.text = process
-            firstNumber += Double(resultLabel.text!)!
+            if baceNumberSelectTF.text == "10進数"{
+                firstDouble += Double(result)!
+            }else{
+                firstInteger += Int(result)!
+            }
+            
         }
         if ope == "+" {
             if resultLabel.text == "0"{
@@ -442,7 +481,22 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
                 process += "+\(resultLabel.text!)"
             }
             operatorLabel.text = process
-            firstNumber += Double(resultLabel.text!)!
+            if baceNumberSelectTF.text == "10進数"{
+                firstDouble += Double(result)!
+            }else{
+                firstInteger += Int(result)!
+            }
+//            switch resultLabel.text {
+//            case "2進数":
+//                resultNumber = twoToTen(number: String(firstInteger))
+//            case "8進数":
+//                resultNumber = eightToTen(number: String(firstInteger))
+//            case "16進数":
+//                resultNumber = sixteenToTen(number: String(firstInteger))
+//            default:
+//                print("error")
+//                return
+//            }
         }else if ope == "-" {
             if resultLabel.text == "0"{
                 process += resultLabel.text!
@@ -451,8 +505,26 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
             }
             operatorLabel.text = process
             mode = false
-            firstNumber -= Double(resultLabel.text!)!
-            resultLabel.text = "\(firstNumber)"
+            if baceNumberSelectTF.text == "10進数"{
+                firstDouble -= Double(result)!
+//                resultLabel.text = "\(firstDouble)"
+            }else{
+                //変換
+                firstInteger -= Int(result)!
+//                resultLabel.text = "\(firstInteger)"
+            }
+//            switch resultLabel.text {
+//            case "2進数":
+//                resultNumber = twoToTen(number: String(firstInteger))
+//            case "8進数":
+//                resultNumber = eightToTen(number: String(firstInteger))
+//            case "16進数":
+//                resultNumber = sixteenToTen(number: String(firstInteger))
+//            default:
+//                print("error")
+//                return
+//            }
+            
         }else if ope == "×" {
             if resultLabel.text == "0"{
                 process += resultLabel.text!
@@ -461,8 +533,13 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
             }
             operatorLabel.text = process
             mode = false
-            firstNumber *= Double(resultLabel.text!)!
-            resultLabel.text = "\(firstNumber)"
+            if baceNumberSelectTF.text == "10進数"{
+                firstDouble *= Double(result)!
+                resultLabel.text = "\(firstDouble)"
+            }else{
+                firstInteger *= Int(result)!
+//                resultLabel.text = "\(firstInteger)"
+            }
         }else if ope == "÷" {
             if resultLabel.text == "0"{
                 process += resultLabel.text!
@@ -471,10 +548,31 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
             }
             operatorLabel.text = process
             mode = false
-            firstNumber /= Double(resultLabel.text!)!
-            resultLabel.text = "\(firstNumber)"
+            if baceNumberSelectTF.text == "10進数"{
+                firstDouble /= Double(result)!
+                resultLabel.text = "\(firstDouble)"
+            }else{
+                firstInteger /= Int(result)!
+//                resultLabel.text = "\(firstInteger)"
+            }
         }
-        resultLabel.text = "\(firstNumber)"
+        switch baceNumberSelectTF.text {
+        case "2進数":
+            resultNumber = twoToTen(number: String(firstInteger))
+            resultLabel.text = resultNumber
+        case "8進数":
+            resultNumber = eightToTen(number: String(firstInteger))
+            resultLabel.text = resultNumber
+        case "10進数":
+            resultLabel.text = String(firstDouble)
+        case "16進数":
+            resultNumber = sixteenToTen(number: String(firstInteger))
+            resultLabel.text = resultNumber
+        default:
+            print("error")
+            return
+        }
+        
     }
     
   
@@ -513,7 +611,67 @@ class CalculatorViewController: UIViewController, UITextFieldDelegate, UIPickerV
         changeNumberVC.number = result
         changeNumberVC.integerNumber = integerNumber
 //        changeNumberVC.decimalNumber = Double(demicalString)!
+        changeNumberVC.mode = baceNumberSelectTF.text!
         self.present(changeNumberVC,animated: true, completion: nil)
+    }
+    
+    func tenToTwo(number:String) -> String{
+        var tenNum = Int(number)!
+        var base = 1
+        var result = 0
+        while(tenNum > 0){
+            result = result + (tenNum % 10) * base
+            tenNum /= 10
+            base *= 2
+        }
+        return String(result)
+    }
+    
+    func twoToTen(number: String) -> String{
+        var twoNum = Int(number)!
+        var base = 1
+        var result = 0
+        while(twoNum > 0){
+            result = result + (twoNum % 2) * base
+            twoNum /= 2
+            base *= 10
+        }
+        return String(result)
+    }
+    
+    func tenToEight(number:String) -> String{
+        var tenNum = Int(number)!
+        var base = 1
+        var result = 0
+        while(tenNum > 0){
+            result = result + (tenNum % 10) * base
+            tenNum /= 10
+            base *= 8
+        }
+        return String(result)
+    }
+    
+    func eightToTen(number:String) -> String{
+        var eightNum = Int(number)!
+        var base = 1
+        var result = 0
+        while(eightNum > 0){
+            result = result + (eightNum % 8) * base
+            eightNum /= 8
+            base *= 10
+        }
+        return String(result)
+    }
+    
+    func tenToSixteen(number:String) -> String{
+        var tenNum = Int(number)!
+        var result = String(tenNum,radix: 16)
+        return result
+    }
+    
+    func sixteenToTen(number:String) -> String{
+        var sixteenNum = Int(number,radix: 16)!
+        return String(sixteenNum)
     }
     
     
